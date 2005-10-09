@@ -10,15 +10,66 @@ use warnings;
 use Carp;
 
 use vars qw/$VERSION/;
-$VERSION = '0.05';
+$VERSION = '1.00';
 
 use Acme::Chef::Recipe;
 use Acme::Chef::Container;
 use Acme::Chef::Ingredient;
 
-# constructor compile
-# 
-# Takes source code and compiles program from it.
+=head1 NAME
+
+Acme::Chef - An interpreter for the Chef programming language
+
+=head1 SYNOPSIS
+
+  # Using the script that comes with the distribution.
+  chef.pl file.chef
+  
+  # Using the module
+  use Acme::Chef;
+  
+  my $compiled = Acme::Chef->compile($code_string);  
+  print $compiled->execute();
+  
+  my $string = $compiled->dump(); # requires Data::Dumper
+  # Save it to disk, send it over the web, whatever.
+  my $reconstructed_object = eval $string;
+  
+  # or:
+  $string = $compiled->dump('autorun'); # requires Data::Dumper
+  # Save it to disk, send it over the web, whatever.
+  my $output_of_chef_program = eval $string;
+
+=head1 DESCRIPTION
+
+Chef is an esoteric programming language in which programs look like
+recipes. I needn't mention that using it in
+production environment, heck, using it for anything but entertainment
+ought to result in bugs and chaos in reverse order.
+
+All methods provided by Acme::Chef are adequately described in the
+synopsis. If you don't think so, you need to read the source code.
+
+There has been an update to the Chef specification. I have implemented
+the changes and marked them in the following documentation with
+"I<new specification>".
+
+With that out of the way, I would like to present a pod-formatted
+copy of the Chef specification from David Morgan-Mar's homepage
+(L<http://www.dangermouse.net/esoteric/chef.html>).
+
+=head2 METHODS
+
+This is a list of methods in this package.
+
+=over 2
+
+=item compile
+
+Takes Chef source code as first argument and compiles a Chef program from it.
+This method doesn't run the code, but returns a program object.
+
+=cut
 
 sub compile {
    my $proto = shift;
@@ -46,9 +97,11 @@ sub compile {
 }
 
 
-# method execute
-# 
-# Takes no arguments. Returns the program's output.
+=item execute
+ 
+Takes no arguments. Runs the program and returns its output.
+
+=cut
 
 sub execute {
    my $self = shift;
@@ -61,14 +114,17 @@ sub execute {
 }
 
 
-# method dump
-# 
-# Takes one optional argument. If it equals 'autorun',
-# dump returns a string that, when evaluated, executes
-# the program and returns the output.
-# If the argument does not equal 'autorun', a different
-# string is returned that reconstructs the Acme::Chef
-# object.
+=item dump
+ 
+Takes one optional argument. If it equals 'autorun',
+dump returns a string that, when evaluated, executes
+the program and returns the output.
+
+If the argument does not equal 'autorun', a different
+string is returned that reconstructs the Acme::Chef
+object.
+
+=cut
 
 sub dump {
    my $self = shift;
@@ -204,53 +260,11 @@ sub _paragraphsToRecipes {
 1;
 __END__
 
-=pod
-
-=head1 NAME
-
-Acme::Chef - An interpreter for the Chef programming language
-
-=head1 SYNOPSIS
-
-  # Using the script that comes with the distribution.
-  chef.pl file.chef
-  
-  # Using the module
-  use Acme::Chef;
-  
-  my $compiled = Acme::Chef->compile($code_string);  
-  print $compiled->execute();
-  
-  my $string = $compiled->dump(); # requires Data::Dumper
-  # Save it to disk, send it over the web, whatever.
-  my $reconstructed_object = eval $string;
-  
-  # or:
-  $string = $compiled->dump('autorun'); # requires Data::Dumper
-  # Save it to disk, send it over the web, whatever.
-  my $output_of_chef_program = eval $string;
-
-=head1 DESCRIPTION
-
-Chef is an esoteric programming language in which programs look like
-recipes. I needn't mention that using it in
-production environment, heck, using it for anything but entertainment
-ought to result in bugs and chaos in reverse order.
-
-All methods provided by Acme::Chef are adequately described in the
-synopsis. If you don't think so, you need to read the source code.
-
-There has been an update to the Chef specification. I have implemented
-the changes and marked them in the following documentation with
-"I<new specification>".
-
-With that out of the way, I would like to present a pod-formatted
-copy of the Chef specification from David Morgan-Mar's homepage
-(L<http://www.dangermouse.net/esoteric/chef.html>).
+=back
 
 =head1 DESIGN PRINCIPLES
 
-=over 4
+=over 2
 
 =item *
 
@@ -326,7 +340,7 @@ I<New specification: The initial-value is now optional. Attempting to
 use an ingredient without a defined value is a run-time error.>
 The optional measure can be any of the following:
 
-=over 4
+=over 2
 
 =item *
 
@@ -345,7 +359,7 @@ which may be either dry or liquid.
 
 The optional measure-type may be any of the following:
 
-=over 4
+=over 2
 
 =item *
 
@@ -380,7 +394,7 @@ The method contains the actual recipe instructions. These are written
 in sentences. Line breaks are ignored in the method of a recipe. Valid
 method instructions are:
 
-=over 4
+=over 2
 
 =item *
 
@@ -592,7 +606,7 @@ Chef was designed by David Morgan-Mar.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002-2003 Steffen Mueller. All rights reserved. This program is
+Copyright (c) 2002-2005 Steffen Mueller. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 

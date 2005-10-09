@@ -7,7 +7,28 @@ use warnings;
 use Carp;
 
 use vars qw/$VERSION %Measures %MeasureTypes/;
-$VERSION = '0.05';
+$VERSION = '1.00';
+
+=head1 NAME
+
+Acme::Chef::Ingredient - Internal module used by Acme::Chef
+
+=head1 SYNOPSIS
+
+  use Acme::Chef;
+
+=head1 DESCRIPTION
+
+Please see L<Acme::Chef>;
+
+=head2 METHODS
+
+This is a list of methods in the package.
+
+=over 2
+
+=cut
+
 
 %Measures = (
   ''          => '',
@@ -32,6 +53,19 @@ $VERSION = '0.05';
   heaped => 'dry',
   level  => 'dry',
 );
+
+=item new
+
+Acme::Chef::Ingredient constructor. Takes key/value pairs as argument which
+will be used as attributes. The following attributes are currently
+required:
+
+  name
+  value
+  measure
+  measure_type
+
+=cut
 
 sub new {
    my $proto = shift;
@@ -63,6 +97,12 @@ sub new {
 }
 
 
+=item type
+
+Returns the type of the Ingredient.
+
+=cut
+
 sub type {
    my $self = shift;
 
@@ -71,6 +111,12 @@ sub type {
    return $self->{type};
 }
 
+=item determine_type
+
+Also returns the type if the Ingredient, but forces a fresh run of the
+type inferer.
+
+=cut
 
 sub determine_type {
    my $self = shift;
@@ -98,6 +144,12 @@ sub determine_type {
 }
 
 
+=item value
+
+Mutator for the Ingredient's value.
+
+=cut
+
 sub value {
    my $self = shift;
    my $new_val = shift;
@@ -113,6 +165,12 @@ sub value {
 }
 
 
+=item liquify
+
+Sets the type of the Ingredient to be liquid.
+
+=cut
+
 sub liquify {
    my $self = shift;
 
@@ -123,19 +181,7 @@ sub liquify {
 
 __END__
 
-=pod
-
-=head1 NAME
-
-Acme::Chef::Ingredient - Internal module used by Acme::Chef
-
-=head1 SYNOPSIS
-
-  use Acme::Chef;
-
-=head1 DESCRIPTION
-
-Please see L<Acme::Chef>;
+=back
 
 =head1 AUTHOR
 
@@ -145,7 +191,7 @@ Chef designed by David Morgan-Mar.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002-2003 Steffen Mueller. All rights reserved. This program is
+Copyright (c) 2002-2005 Steffen Mueller. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 

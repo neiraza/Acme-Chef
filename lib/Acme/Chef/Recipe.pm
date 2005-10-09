@@ -9,8 +9,28 @@ use Carp;
 use Acme::Chef::Ingredient;
 use Acme::Chef::Container;
 
+=head1 NAME
+
+Acme::Chef::Recipe - Internal module used by Acme::Chef
+
+=head1 SYNOPSIS
+
+  use Acme::Chef;
+
+=head1 DESCRIPTION
+
+Please see L<Acme::Chef>;
+
+=head2 METHODS
+
+This is list of methods in this package.
+
+=over 2
+
+=cut
+
 use vars qw/$VERSION %Grammars @GrammarOrder %Commands/;
-$VERSION = '0.05';
+$VERSION = '1.00';
 
 @GrammarOrder = qw(
   take_from add_dry put fold add remove combine divide
@@ -426,6 +446,13 @@ $VERSION = '0.05';
 
 );
 
+=item new
+
+Acme::Chef::Recipe constructor. Arguments are interpreted as key/value pairs
+and used as object attributes.
+
+=cut
+
 
 sub new {
    my $proto = shift;
@@ -474,6 +501,14 @@ sub new {
    bless $self => $class;
    return $self;
 }
+
+
+=item execute
+
+Executes the recipe (program). First argument should be a reference to a
+hash of sous-recipes.
+
+=cut
 
 
 sub execute {
@@ -549,12 +584,24 @@ sub execute {
    return $self;
 }
 
+=item first_bowl
+
+Returns the first bowl of the recipe.
+
+=cut
 
 sub first_bowl {
    my $self = shift;
    return $self->{bowls}->[0];
 }
 
+=item require_ingredient
+
+First argument must be an ingredient object. Second may be a string indicating
+the location of the requirement. Throws a fatal error if the ingredient is not
+present.
+
+=cut
 
 sub require_ingredient {
    my $self = shift;
@@ -569,6 +616,11 @@ sub require_ingredient {
    return $self;
 }
 
+=item output
+
+Mutator for the Recipe output.
+
+=cut
 
 sub output {
    my $self = shift;
@@ -578,6 +630,12 @@ sub output {
    return $self->{output};
 }
 
+=item require_bowl
+
+First argument must be a number of bowls. Additional bowls are added to the
+recipe if it currently has less than this number of bowls.
+
+=cut
 
 sub require_bowl {
    my $self = shift;
@@ -592,6 +650,14 @@ sub require_bowl {
    return $self;
 }
 
+
+=item require_dish
+
+First argument must be a number of dishes. Additional dishes are added to the
+recipe if it currently has less than this number of dishes.
+
+=cut
+
 sub require_dish {
    my $self = shift;
    my $no   = shift;
@@ -605,6 +671,12 @@ sub require_dish {
    return $self;
 }
 
+=item recipe_name
+
+Mutator for the recipe name.
+
+=cut
+
 sub recipe_name {
    my $self = shift;
 
@@ -613,6 +685,13 @@ sub recipe_name {
    return $self->{name};
 }
 
+
+=item compile
+
+Tries to compile the recipe. Returns 0 on error or if the recipe was
+already compiled. Returns the compiled recipe if the compilation succeeded.
+
+=cut
 
 sub compile {
    my $self = shift;
@@ -722,19 +801,7 @@ sub compile {
 
 __END__
 
-=pod
-
-=head1 NAME
-
-Acme::Chef::Recipe - Internal module used by Acme::Chef
-
-=head1 SYNOPSIS
-
-  use Acme::Chef;
-
-=head1 DESCRIPTION
-
-Please see L<Acme::Chef>;
+=back
 
 =head1 AUTHOR
 
@@ -744,7 +811,7 @@ Chef designed by David Morgan-Mar.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002-2003 Steffen Mueller. All rights reserved. This program is
+Copyright (c) 2002-2005 Steffen Mueller. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 

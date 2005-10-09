@@ -1,5 +1,9 @@
 Revision history for Perl extension Language::Chef.
 
+1.00  Thu Oct 06 20:11:07 2005
+	- Distribution upgrade to reflect the latest developments in module
+	  testing and building.
+
 0.05  Wed Mar 26 12:49:51 2003
 	- Switched namespaces to Acme::Chef as suggested
 	  on the modules list

@@ -1,11 +1,11 @@
+Build.PL
 Changes
-MANIFEST
-Makefile.PL
-README
-chef.pl
-compilechef.pl
+chef
+compilechef
 examples/exp.chef
 examples/fac.chef
+examples/fib.chef
+examples/fib2.chef
 examples/hello.chef
 examples/japh.chef
 examples/stdin.chef
@@ -13,10 +13,16 @@ lib/Acme/Chef.pm
 lib/Acme/Chef/Container.pm
 lib/Acme/Chef/Ingredient.pm
 lib/Acme/Chef/Recipe.pm
+Makefile.PL
+MANIFEST			This list of files
+META.yml
+README
+t/00pod.t
+t/00podcover.t
 t/01hello.t
 t/11japh.t
 t/21exp.t
 t/25long.t
 t/31fac.t
 t/41stdin.t
-
+SIGNATURE    Added here by Module::Build

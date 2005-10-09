@@ -1,0 +1,29 @@
+--- #YAML:1.0
+name: Acme-Chef
+version: 1.00
+author:
+  - |-
+    Steffen Mueller <chef-module at steffen-mueller dot net>
+abstract: An interpreter for the Chef programming language
+license: perl
+requires:
+  File::Temp: 0
+recommends:
+  Test::Pod: 1.0
+  Test::Pod::Coverage: 1.0
+build_requires:
+  Test::More: 0
+provides:
+  Acme::Chef:
+    file: lib/Acme/Chef.pm
+    version: 1.00
+  Acme::Chef::Container:
+    file: lib/Acme/Chef/Container.pm
+    version: 1.00
+  Acme::Chef::Ingredient:
+    file: lib/Acme/Chef/Ingredient.pm
+    version: 1.00
+  Acme::Chef::Recipe:
+    file: lib/Acme/Chef/Recipe.pm
+    version: 1.00
+generated_by: Module::Build version 0.2608

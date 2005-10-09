@@ -9,7 +9,35 @@ use Carp;
 use Acme::Chef::Ingredient;
 
 use vars qw/$VERSION/;
-$VERSION = '0.05';
+$VERSION = '1.00';
+
+=head1 NAME
+
+Acme::Chef::Container - Internal module used by Acme::Chef
+
+=head1 SYNOPSIS
+
+  use Acme::Chef;
+
+=head1 DESCRIPTION
+
+Please see L<Acme::Chef>;
+
+=head2 METHODS
+
+This is a list of methods in this package.
+
+=over 2
+
+=cut
+
+=item new
+
+This is the Acme::Chef::Container constructor. Creates a new
+Acme::Chef::Container object. All arguments are treated as key/value pairs for
+object attributes.
+
+=cut
 
 sub new {
    my $proto = shift;
@@ -32,6 +60,13 @@ sub new {
 }
 
 
+=item put
+
+This method implements the 'put' command. Please refer to L<Acme::Chef> for
+details.
+
+=cut
+
 sub put {
    my $self = shift;
 
@@ -42,6 +77,12 @@ sub put {
    return $self;
 }
 
+=item fold
+
+This method implements the 'fold' command. Please refer to L<Acme::Chef> for
+details.
+
+=cut
 
 sub fold {
    my $self = shift;
@@ -58,6 +99,12 @@ sub fold {
    return $ingredient;
 }
 
+=item add
+
+This method implements the 'add' command. Please refer to L<Acme::Chef> for
+details.
+
+=cut
 
 sub add {
    my $self = shift;
@@ -74,6 +121,13 @@ sub add {
 
    return $ingredient;
 }
+
+=item remove
+
+This method implements the 'remove' command. Please refer to L<Acme::Chef> for
+details.
+
+=cut
 
 
 sub remove {
@@ -93,6 +147,13 @@ sub remove {
 }
 
 
+=item combine
+
+This method implements the 'combine' command. Please refer to L<Acme::Chef> for
+details.
+
+=cut
+
 sub combine {
    my $self = shift;
 
@@ -110,6 +171,13 @@ sub combine {
 }
 
 
+=item divide
+
+This method implements the 'divide' command. Please refer to L<Acme::Chef> for
+details.
+
+=cut
+
 sub divide {
    my $self = shift;
 
@@ -126,6 +194,14 @@ sub divide {
    return $ingredient;
 }
 
+=item put_sum
+
+This method takes a number of Acme::Chef::Ingredient objects as arguments and
+creates and 'puts' the sum of the ingredients.
+
+Please refer to L<Acme::Chef> for details.
+
+=cut
 
 sub put_sum {
    my $self = shift;
@@ -135,7 +211,7 @@ sub put_sum {
    my $sum = 0;
    $sum += $_->value() for @ingredients;
 
-   my $ingredient = Acme::Chef::Ingredients->new(
+   my $ingredient = Acme::Chef::Ingredient->new(
      name    => '',
      value   => $sum,
      measure => '',
@@ -147,6 +223,12 @@ sub put_sum {
    return $ingredient;
 }
 
+=item liquify_contents
+
+This method implements the 'liquify' command for all ingredients.
+Please refer to L<Acme::Chef> for details.
+
+=cut
 
 sub liquify_contents {
    my $self = shift;
@@ -158,6 +240,13 @@ sub liquify_contents {
    return $self;
 }
 
+=item stir_time
+
+This method implements the 'stir' command.
+First argument should be the depth ("time") to stir.
+Please refer to L<Acme::Chef> for details.
+
+=cut
 
 sub stir_time {
    my $self = shift;
@@ -175,6 +264,14 @@ sub stir_time {
 }
 
 
+=item stir_ingredient
+
+This method implements the 'stir_ingredient' command. Please refer to
+L<Acme::Chef> for details.
+
+=cut
+
+
 sub stir_ingredient {
    my $self = shift;
 
@@ -185,6 +282,14 @@ sub stir_ingredient {
    return $self;
 }
 
+=item mix
+
+This method implements the 'mix' command. Please refer to L<Acme::Chef> for
+details.
+
+Shuffles the container's contents.
+
+=cut
 
 sub mix {
    my $self = shift;
@@ -194,6 +299,14 @@ sub mix {
    return $self;
 }
 
+=item clean
+
+This method implements the 'clean' command. Please refer to L<Acme::Chef> for
+details.
+
+Empties the container.
+
+=cut
 
 sub clean {
    my $self = shift;
@@ -204,12 +317,27 @@ sub clean {
 }
 
 
+=item pour
+
+This method implements the 'pour' command. Please refer to L<Acme::Chef> for
+details.
+
+Returns the contained ingredients.
+
+=cut
+
 sub pour {
    my $self = shift;
 
    return @{ $self->{contents} };
 }
 
+
+=item print
+
+Returns stringification of the object.
+
+=cut
 
 sub print {
    my $self = shift;
@@ -242,19 +370,7 @@ sub _fisher_yates_shuffle {
 
 __END__
 
-=pod
-
-=head1 NAME
-
-Acme::Chef::Container - Internal module used by Acme::Chef
-
-=head1 SYNOPSIS
-
-  use Acme::Chef;
-
-=head1 DESCRIPTION
-
-Please see L<Acme::Chef>;
+=back
 
 =head1 AUTHOR
 
@@ -264,7 +380,7 @@ Chef designed by David Morgan-Mar.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002-2003 Steffen Mueller. All rights reserved. This program is
+Copyright (c) 2002-2005 Steffen Mueller. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 
