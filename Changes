@@ -1,5 +1,8 @@
 Revision history for Perl extension Language::Chef.
 
+1.01  Tue May 13 11:33:23 2008
+        - s/refridgerator/refrigerator/g, oops!
+
 1.00  Thu Oct 06 20:11:07 2005
 	- Distribution upgrade to reflect the latest developments in module
 	  testing and building.

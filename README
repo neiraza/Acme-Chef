@@ -1,5 +1,5 @@
-Acme::Chef version 1.00
-=======================
+Acme::Chef
+==========
 
 Acme::Chef and all contained modules represent a simple
 interpreter of the Chef programming language designed by
@@ -45,7 +45,7 @@ chef-module at steffen-mueller dot net
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2002-2005 Steffen Mueller
+Copyright (c) 2002-2008 Steffen Mueller
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 

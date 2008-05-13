@@ -12,13 +12,12 @@ my $b = Module::Build->new
                   'Test::Pod' => '1.0',
                   'Test::Pod::Coverage' => '1.0',
                  },
-   script_files => ['compilechef', 'chef'],
+   script_files => ['script/compilechef', 'script/chef'],
 #   conflicts => {},
    build_requires => {
                       'Test::More' => 0,
                      },
    create_makefile_pl => 'traditional',
-   sign => 1,
   );
 
 $b->create_build_script;

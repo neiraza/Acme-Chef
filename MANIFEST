@@ -1,7 +1,5 @@
 Build.PL
 Changes
-chef
-compilechef
 examples/exp.chef
 examples/fac.chef
 examples/fib.chef
@@ -17,6 +15,8 @@ Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
+script/chef
+script/compilechef
 t/00pod.t
 t/00podcover.t
 t/01hello.t
@@ -25,4 +25,3 @@ t/21exp.t
 t/25long.t
 t/31fac.t
 t/41stdin.t
-SIGNATURE    Added here by Module::Build
