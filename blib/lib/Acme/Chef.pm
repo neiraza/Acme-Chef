@@ -72,14 +72,12 @@ This method doesn't run the code, but returns a program object.
 =cut
 
 sub compile {
-   print "Chef#compile\n";
+   print "Chef#compile"./n;
    my $proto = shift;
-   print "Chef#compile proto=$proto\n";
+   print $proto;
    my $class = ref $proto || $proto;
-   print "Chef#compile class=$class\n";
 
    my $code = shift;
-   print "Chef#compile code=$code\n";
    defined $code or croak "compile takes one argument: a code string.";
 
    my $self = {};
@@ -87,14 +85,11 @@ sub compile {
    bless $self => $class;
 
    my @paragraphs = $self->_get_paragraphs( $code );
-   print "paragraphs=@paragraphs\n";
    my @recipes    = $self->_paragraphsToRecipes(\@paragraphs);
-   print "recipes=@recipes\n";
 
    $_->compile() foreach @recipes;
 
    $self->{start_recipe} = $recipes[0]->recipe_name();
-   print "self->{start_recipe}=$self->{start_recipe}\n";
 
    $self->{recipes} = {
                         map { ($_->recipe_name(), $_) } @recipes
@@ -111,7 +106,7 @@ Takes no arguments. Runs the program and returns its output.
 =cut
 
 sub execute {
-    print "Chef#execute\n";
+    print "Chef#execute";
    my $self = shift;
 
    my $start_recipe = $self->{recipes}->{ $self->{start_recipe} }->new();
@@ -161,16 +156,12 @@ sub dump {
 # private function _get_paragraphs
 
 sub _get_paragraphs {
-    print "Chef#_get_paragraphs\n";
    my $self = shift;
 
    my $string = shift;
 
-   print "string1=$string\n";
    $string =~ s/^\s+//;
-   print "string2=$string\n";
    $string =~ s/\s+$//;
-   print "string3=$string\n";
 
    return split /\n{2,}/, $string;
 }
@@ -181,40 +172,26 @@ sub _get_paragraphs {
 # Constructs recipes from an array ref of paragraphs.
 
 sub _paragraphsToRecipes {
-    print "Chef#_paragraphsToRecipes\n";
    my $self = shift;
-   print "Chef#_paragraphsToRecipes self=$self\n";
 
    my $paragraphs = shift;
-   print "Chef#_paragraphsToRecipes paragraphs=$paragraphs\n";
    $paragraphs = shift if not defined $paragraphs or not ref $paragraphs;
-   print "Chef#_paragraphsToRecipes paragraphs=$paragraphs\n";
 
    while (chomp @$paragraphs) {}
-   print "Chef#_paragraphsToRecipes paragraphs=@$paragraphs\n";
 
    my @recipes;
-   print "Chef#_paragraphsToRecipes recipes=@recipes\n";
 
    my $paragraph_no = 0;
    while (@$paragraphs) {
       my $recipe_name = shift @$paragraphs;
-      print "Chef#_paragraphsToRecipes recipe_name=$recipe_name\n";
       $paragraph_no++;
-      print "Chef#_paragraphsToRecipes paragrah_no=$paragraph_no\n";
       $recipe_name =~ /^[ ]*([\-\w][\- \w]*)\.[ ]*$/
         or croak "Invalid recipe name specifier in paragraph no. $paragraph_no.";
-      print "Chef#_paragraphsToRecipes recipe_name=$recipe_name\n";
-      print "Chef#_paragraphsToRecipes 1=$1\n";
       $recipe_name = lc($1);
-      print "Chef#_paragraphsToRecipes recipe_name=$recipe_name\n";
 
       last unless @$paragraphs;
-   print "Chef#_paragraphsToRecipes paragraphs=@$paragraphs\n";
       my $comments = shift @$paragraphs;
-   print "Chef#_paragraphsToRecipes comments=$comments\n";
       $paragraph_no++;
-      print "Chef#_paragraphsToRecipes paragrah_no=$paragraph_no\n";
       my $ingredients;
       if ( $comments =~ /^[ ]*Ingredients\.[ ]*\n/ ) {
          $ingredients = $comments;
@@ -222,75 +199,51 @@ sub _paragraphsToRecipes {
       } else {
          last unless @$paragraphs;
          $ingredients = shift @$paragraphs;
-      print "Chef#_paragraphsToRecipes ingredients=$ingredients\n";
          $paragraph_no++;
-      print "Chef#_paragraphsToRecipes paragrah_no=$paragraph_no\n";
       }
 
       last unless @$paragraphs;
       my $cooking_time = shift @$paragraphs;
-      print "Chef#_paragraphsToRecipes cooking_time=$cooking_time\n";
       $paragraph_no++;
-      print "Chef#_paragraphsToRecipes paragrah_no=$paragraph_no\n";
       my $temperature;
 
       if ($cooking_time =~ /^[ ]*Cooking time:[ ]*(\d+)(?: hours?| minutes?)\.[ ]*$/) {
-          print "Cooking Time !!!!!\n";
          $cooking_time = $1;
          last unless @$paragraphs;
          $temperature = shift @$paragraphs;
-         print "Chef#_paragraphsToRecipes temperature=$temperature\n";
          $paragraph_no++;
       } else {
-         print "No Cooking Time !!!!!\n";
          $temperature = $cooking_time;
-         print "Chef#_paragraphsToRecipes temperature=$temperature\n";
          $cooking_time = '';
       }
 
       my $method;
       if ($temperature =~ /^[ ]*Pre-heat oven to (\d+) degrees Celsius(?: gas mark (\d+))?\.[ ]*$/) {
-         print "Oven To !!!!!\n";
          $temperature = $1;
          $temperature .= ",$2" if defined $2;
          last unless @$paragraphs;
          $method = shift @$paragraphs;
          $paragraph_no++;
       } else {
-         print "No Oven To !!!!!\n";
          $method = $temperature;
          $temperature = '';
       }
 
       $method =~ /^[ ]*Method\.[ ]*\n/
         or croak "Invalid method specifier in paragraph no. $paragraph_no.";
-         print "Chef#_paragraphsToRecipes method=$method\n";
 
       my $serves = '';
       if (@$paragraphs) {
          $serves = shift @$paragraphs;
-         print "Chef#_paragraphsToRecipes serves=$serves\n";
          if ($serves =~ /^[ ]*Serves (\d+)\.[ ]*$/) {
-            print "Serves !!!!!\n";
             $serves = $1;
-            print "Chef#_paragraphsToRecipes serves=$serves\n";
             $paragraph_no++;
-            print "Chef#_paragraphsToRecipes paragrah_no=$paragraph_no\n";
          } else {
-            print "No Serves !!!!!\n";
             unshift @$paragraphs, $serves;
             $serves = '';
          }
       }
 
-      print "Acme::Chef::Recipe->new!!!!!\n";
-      print "Chef#_paragraphsToRecipes recipe_name=$recipe_name\n";
-      print "Chef#_paragraphsToRecipes comments=$comments\n";
-      print "Chef#_paragraphsToRecipes ingredients=$ingredients\n";
-      print "Chef#_paragraphsToRecipes cooking_time=$cooking_time\n";
-      print "Chef#_paragraphsToRecipes temperature=$temperature\n";
-      print "Chef#_paragraphsToRecipes method=$method\n";
-      print "Chef#_paragraphsToRecipes serves=$serves\n";
       push @recipes, Acme::Chef::Recipe->new(
         name         => $recipe_name,
         comments     => $comments,

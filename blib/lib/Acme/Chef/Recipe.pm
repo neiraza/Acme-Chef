@@ -267,7 +267,7 @@ $VERSION = '1.00';
            put( $recipe -> {ingredients} -> {$data -> [1]} );
       return 1;
    },
-
+   
    take_from => sub {
       my $recipe = shift;
       my $data   = shift;
@@ -455,7 +455,6 @@ and used as object attributes.
 
 
 sub new {
-   print "Recipe#new\n";
    my $proto = shift;
    my $class = ref $proto || $proto;
 

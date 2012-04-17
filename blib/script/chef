@@ -1,4 +1,7 @@
-#!/usr/bin/perl
+#!/usr/bin/perl 
+
+eval 'exec /usr/bin/perl  -S $0 ${1+"$@"}'
+    if 0; # not running under some shell
 
 use 5.006;
 use strict;
@@ -34,8 +37,9 @@ my $code = <$fh>;
 
 close $fh;
 
-print "script/chef code=$code\n";
+print $code;
 my $compiled = Acme::Chef->compile($code);
+print $compiled;
 print $compiled->execute();
 
 __END__
