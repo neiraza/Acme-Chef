@@ -3,6 +3,7 @@ package Acme::Chef::Recipe;
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use Carp;
 
@@ -462,6 +463,7 @@ sub new {
    my $self = {};
 
    if (ref $proto) {
+      print "Recipe#new\nTRUE\n";
       %$self = %$proto;
 
       $self->{bowls}  = [ map { $_->new() } @{$self -> {bowls }} ];
@@ -481,6 +483,8 @@ sub new {
    }
 
    my %args  = @_;
+   print "WWWWWWWWWWWWW\n";
+   print Dumper(\%args);
 
    %$self = (
      compiled     => 0,

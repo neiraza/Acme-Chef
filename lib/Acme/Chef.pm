@@ -112,13 +112,13 @@ Takes no arguments. Runs the program and returns its output.
 
 sub execute {
     print "Chef#execute\n";
-   my $self = shift;
+    my $self = shift;
+    print "Chef#execute\n self=$self";
+    my $start_recipe = $self->{recipes}->{ $self->{start_recipe} }->new();
 
-   my $start_recipe = $self->{recipes}->{ $self->{start_recipe} }->new();
+    $start_recipe->execute($self->{recipes});
 
-   $start_recipe->execute($self->{recipes});
-
-   return $start_recipe->output();
+    return $start_recipe->output();
 }
 
 
