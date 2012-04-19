@@ -463,9 +463,16 @@ sub new {
    my $self = {};
 
    if (ref $proto) {
+      print "***** execute以降で登場 *****\n";
       %$self = %$proto;
+      print Dumper("self");
+      print Dumper(%$self);
 
+      print Dumper("self->bowls");
+      print Dumper($self->bowls);
       $self->{bowls}  = [ map { $_->new() } @{$self -> {bowls }} ];
+      print Dumper("self->bowls");
+      print Dumper($self->bowls);
       $self->{dishes} = [ map { $_->new() } @{$self -> {dishes}} ];
       $self->{loops}  = { map { ( $_, $self->{loops}{$_} ) }
                               keys %{$self->{loops}} };
