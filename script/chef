@@ -34,8 +34,9 @@ my $code = <$fh>;
 
 close $fh;
 
-print "script/chef code=$code\n";
+print "script/chef\nAcme::Chef->compile";
 my $compiled = Acme::Chef->compile($code);
+print "script/chef\nAcme::Chef->execute";
 print $compiled->execute();
 
 __END__

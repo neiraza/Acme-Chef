@@ -456,14 +456,13 @@ and used as object attributes.
 
 
 sub new {
-   print "Recipe#new\n";
+   print "**** Recipe#new ****\n";
    my $proto = shift;
    my $class = ref $proto || $proto;
 
    my $self = {};
 
    if (ref $proto) {
-      print "Recipe#new\nTRUE\n";
       %$self = %$proto;
 
       $self->{bowls}  = [ map { $_->new() } @{$self -> {bowls }} ];
@@ -483,8 +482,6 @@ sub new {
    }
 
    my %args  = @_;
-   print "WWWWWWWWWWWWW\n";
-   print Dumper(\%args);
 
    %$self = (
      compiled     => 0,
@@ -502,6 +499,8 @@ sub new {
      %$self,
      %args,
    );
+
+   print Dumper(%$self);
 
    bless $self => $class;
    return $self;
