@@ -114,6 +114,8 @@ sub execute {
     print "**** Chef#execute ****\n";
     my $self = shift;
     my $start_recipe = $self->{recipes}->{ $self->{start_recipe} }->new();
+    print "**** start_recipe ****\n";
+    print Dumper($start_recipe);
 
     $start_recipe->execute($self->{recipes});
 
