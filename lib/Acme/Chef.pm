@@ -76,7 +76,6 @@ This method doesn't run the code, but returns a program object.
 sub compile {
    print "**** Chef#compile ****\n";
    my $proto = shift;
-   print Dumper($proto);
    my $class = ref $proto || $proto;
 
    my $code = shift;
@@ -86,16 +85,17 @@ sub compile {
    my $self = {};
 
    bless $self => $class;
-   print Dumper($self);
 
    my @paragraphs = $self->_get_paragraphs( $code );
-   print Dumper(@paragraphs);
    my @recipes    = $self->_paragraphsToRecipes(\@paragraphs);
 
+   print "**** Chef#compile compile foreach ****\n";
    $_->compile() foreach @recipes;
 
+   print "**** Chef#compile 一番最初のレシピネームいれてる ****\n";
    $self->{start_recipe} = $recipes[0]->recipe_name();
 
+   print "**** Chef#compile レシピネームをキーにハッシュを作成してる ****\n";
    $self->{recipes} = {
                         map { ($_->recipe_name(), $_) } @recipes
                       };
@@ -114,8 +114,6 @@ sub execute {
     print "**** Chef#execute ****\n";
     my $self = shift;
     my $start_recipe = $self->{recipes}->{ $self->{start_recipe} }->new();
-    print "**** start_recipe ****\n";
-    print Dumper($start_recipe);
 
     $start_recipe->execute($self->{recipes});
 
@@ -182,10 +180,8 @@ sub _get_paragraphs {
 sub _paragraphsToRecipes {
     print "**** Chef#_paragraphsToRecipes ****\n";
    my $self = shift;
-   print Dumper($self);
 
    my $paragraphs = shift;
-   print Dumper($paragraphs);
    $paragraphs = shift if not defined $paragraphs or not ref $paragraphs;
 
    while (chomp @$paragraphs) {}
@@ -200,8 +196,6 @@ sub _paragraphsToRecipes {
       $recipe_name =~ /^[ ]*([\-\w][\- \w]*)\.[ ]*$/
         or croak "Invalid recipe name specifier in paragraph no. $paragraph_no.";
       $recipe_name = lc($1);
-      print Dumper($recipe_name);
-      print Dumper($paragraph_no);
 
       last unless @$paragraphs;
       my $comments = shift @$paragraphs;
@@ -215,9 +209,6 @@ sub _paragraphsToRecipes {
          $ingredients = shift @$paragraphs;
          $paragraph_no++;
       }
-      print Dumper($comments);
-      print Dumper($ingredients);
-      print Dumper($paragraph_no);
 
       last unless @$paragraphs;
       my $cooking_time = shift @$paragraphs;
@@ -248,8 +239,6 @@ sub _paragraphsToRecipes {
 
       $method =~ /^[ ]*Method\.[ ]*\n/
         or croak "Invalid method specifier in paragraph no. $paragraph_no.";
-      print Dumper($method);
-      print Dumper($paragraph_no);
 
       my $serves = '';
       if (@$paragraphs) {
@@ -262,8 +251,6 @@ sub _paragraphsToRecipes {
             $serves = '';
          }
       }
-      print Dumper($serves);
-      print Dumper($paragraph_no);
 
       push @recipes, Acme::Chef::Recipe->new(
         name         => $recipe_name,

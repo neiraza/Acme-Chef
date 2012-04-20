@@ -40,6 +40,7 @@ object attributes.
 =cut
 
 sub new {
+    print "**** Container->new ****\n";
    my $proto = shift;
    my $class = ref $proto || $proto;
 
@@ -68,6 +69,7 @@ details.
 =cut
 
 sub put {
+    print "**** Container->put ****\n";
    my $self = shift;
 
    my @ingredients = @_;
@@ -85,6 +87,7 @@ details.
 =cut
 
 sub fold {
+    print "**** Container->fold ****\n";
    my $self = shift;
 
    my $ingredient = shift;
@@ -107,6 +110,7 @@ details.
 =cut
 
 sub add {
+    print "**** Container->add ****\n";
    my $self = shift;
 
    my $ingredient = shift;
@@ -131,6 +135,7 @@ details.
 
 
 sub remove {
+    print "**** Container->remove ****\n";
    my $self = shift;
 
    my $ingredient = shift;
@@ -155,6 +160,7 @@ details.
 =cut
 
 sub combine {
+    print "**** Container->combine ****\n";
    my $self = shift;
 
    my $ingredient = shift;
@@ -179,6 +185,7 @@ details.
 =cut
 
 sub divide {
+    print "**** Container->divide ****\n";
    my $self = shift;
 
    my $ingredient = shift;
@@ -204,6 +211,7 @@ Please refer to L<Acme::Chef> for details.
 =cut
 
 sub put_sum {
+    print "**** Container->put_sum ****\n";
    my $self = shift;
 
    my @ingredients = @_;
@@ -231,6 +239,7 @@ Please refer to L<Acme::Chef> for details.
 =cut
 
 sub liquify_contents {
+    print "**** Container->liquify_contents ****\n";
    my $self = shift;
 
    foreach my $ingredient (@{$self->{contents}}) {
@@ -249,6 +258,7 @@ Please refer to L<Acme::Chef> for details.
 =cut
 
 sub stir_time {
+    print "**** Container->stir_time ****\n";
    my $self = shift;
 
    my $depth = shift;
@@ -273,6 +283,7 @@ L<Acme::Chef> for details.
 
 
 sub stir_ingredient {
+    print "**** Container->stir_ingredient ****\n";
    my $self = shift;
 
    my $ingredient = shift;
@@ -292,6 +303,7 @@ Shuffles the container's contents.
 =cut
 
 sub mix {
+    print "**** Container->mix ****\n";
    my $self = shift;
 
    _fisher_yates_shuffle( $self->{contents} );
@@ -309,6 +321,7 @@ Empties the container.
 =cut
 
 sub clean {
+    print "**** Container->clean ****\n";
    my $self = shift;
 
    @{$self->{contents}} = ();
@@ -327,6 +340,7 @@ Returns the contained ingredients.
 =cut
 
 sub pour {
+    print "**** Container->pour ****\n";
    my $self = shift;
 
    return @{ $self->{contents} };
@@ -340,6 +354,7 @@ Returns stringification of the object.
 =cut
 
 sub print {
+    print "**** Container->print ****\n";
    my $self = shift;
 
    my $string = '';
@@ -360,6 +375,7 @@ sub print {
 # fisher_yates_shuffle( \@array ) :
 # generate a random permutation of @array in place
 sub _fisher_yates_shuffle {
+    print "**** Container->_fisher_yates_shuffle ****\n";
     my $array = shift;
     my $i;
     for ($i = @$array; --$i; ) {

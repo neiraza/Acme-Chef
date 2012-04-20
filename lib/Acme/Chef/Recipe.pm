@@ -465,14 +465,8 @@ sub new {
    if (ref $proto) {
       print "***** execute以降で登場 *****\n";
       %$self = %$proto;
-      print Dumper("self");
-      print Dumper(%$self);
 
-      print Dumper("self->bowls");
-      print Dumper($self->bowls);
       $self->{bowls}  = [ map { $_->new() } @{$self -> {bowls }} ];
-      print Dumper("self->bowls");
-      print Dumper($self->bowls);
       $self->{dishes} = [ map { $_->new() } @{$self -> {dishes}} ];
       $self->{loops}  = { map { ( $_, $self->{loops}{$_} ) }
                               keys %{$self->{loops}} };
@@ -507,8 +501,6 @@ sub new {
      %args,
    );
 
-   print Dumper(%$self);
-
    bless $self => $class;
    return $self;
 }
@@ -523,6 +515,7 @@ hash of sous-recipes.
 
 
 sub execute {
+    print "**** Recipe->execute ****\n";
    my $self    = shift;
 
    my $recipes = shift;
@@ -602,6 +595,7 @@ Returns the first bowl of the recipe.
 =cut
 
 sub first_bowl {
+    print "**** Recipe->first_bowl ****\n";
    my $self = shift;
    return $self->{bowls}->[0];
 }
@@ -615,6 +609,7 @@ present.
 =cut
 
 sub require_ingredient {
+    print "**** Recipe->require_ingredient ****\n";
    my $self = shift;
    my $ingredient = shift;
    my $sub = shift;
@@ -634,6 +629,7 @@ Mutator for the Recipe output.
 =cut
 
 sub output {
+    print "**** Recipe->output ****\n";
    my $self = shift;
 
    $self->{output} .= shift if @_;
@@ -649,6 +645,7 @@ recipe if it currently has less than this number of bowls.
 =cut
 
 sub require_bowl {
+    print "**** Recipe->require_bowl ****\n";
    my $self = shift;
    my $no   = shift;
 
@@ -670,6 +667,7 @@ recipe if it currently has less than this number of dishes.
 =cut
 
 sub require_dish {
+    print "**** Recipe->require_dish ****\n";
    my $self = shift;
    my $no   = shift;
 
@@ -689,6 +687,7 @@ Mutator for the recipe name.
 =cut
 
 sub recipe_name {
+    print "**** Recipe->recipe_name ****\n";
    my $self = shift;
 
    $self->{name} = shift if @_;
@@ -705,11 +704,14 @@ already compiled. Returns the compiled recipe if the compilation succeeded.
 =cut
 
 sub compile {
+    print "**** Recipe->compile ****\n";
    my $self = shift;
 
    return 0 if $self->{compiled};
 
    my @ingredients = split /\n/, $self->{ingredients};
+    print "#### ingredients ####\n";
+    print Dumper(@ingredients);
 
    shift @ingredients; # remove header line
 
@@ -720,6 +722,8 @@ sub compile {
 
    foreach (@ingredients) {
       $ingredient_no++;
+      print Dumper("#### foreach ingredients ####");
+      print Dumper(@ingredients);
 
       my $value;
       if (s/^[ ]*(\d+)[ ]//) {
@@ -750,6 +754,15 @@ sub compile {
         or croak "Invalid ingredient specification (ingredient no. $ingredient_no, name).";
 
       my $ingredient_name = $1;
+
+      print "#### ingredient_name ####\n";
+      print Dumper($ingredient_name);
+      print "#### value ####\n";
+      print Dumper($value);
+      print "#### measure ####\n";
+      print Dumper($measure);
+      print "#### measure_type ####\n";
+      print Dumper($measure_type);
 
       my $ingredient = Acme::Chef::Ingredient->new(
         name         => $ingredient_name,

@@ -68,6 +68,7 @@ required:
 =cut
 
 sub new {
+    print "**** Ingredient->new ****\n";
    my $proto = shift;
    my $class = ref $proto || $proto;
 
@@ -104,6 +105,7 @@ Returns the type of the Ingredient.
 =cut
 
 sub type {
+    print "**** Ingredient->type ****\n";
    my $self = shift;
 
    $self->determine_type() if $self->{type} eq '';
@@ -119,6 +121,7 @@ type inferer.
 =cut
 
 sub determine_type {
+    print "**** Ingredient->determine_type ****\n";
    my $self = shift;
 
    my $type = '';
@@ -151,6 +154,7 @@ Mutator for the Ingredient's value.
 =cut
 
 sub value {
+    print "**** Ingredient->value ****\n";
    my $self = shift;
    my $new_val = shift;
 
@@ -172,6 +176,7 @@ Sets the type of the Ingredient to be liquid.
 =cut
 
 sub liquify {
+    print "**** Ingredient->liquify ****\n";
    my $self = shift;
 
    $self->{type} = 'liquid';
